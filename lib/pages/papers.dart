@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import './paper.dart';
+import './models/paper.dart';
 import 'package:http/http.dart' as http;
 
 class Papers extends StatefulWidget {
@@ -15,7 +16,7 @@ class Papers extends StatefulWidget {
 
 class PapersState extends State<Papers> {
 
-  List papers;
+  Iterable<PaperModel> papers;
   
   Future<String> getData() async {
     var response = await http.get(
@@ -26,7 +27,8 @@ class PapersState extends State<Papers> {
     );
     
     this.setState(() {
-      papers = JSON.decode(response.body);
+      List raw_papers = json.decode(response.body);
+      papers = (raw_papers).map((i) => new PaperModel.fromJson(i));
     });
   }
 
@@ -61,15 +63,16 @@ class PapersState extends State<Papers> {
                   onTap: () {
                      Navigator.push(
                         context, 
-                        MaterialPageRoute(builder: (context) => Paper(papers[index]["name"], papers[index]["school"], papers[index]["description"], papers[index]["website"]))
+                        MaterialPageRoute(builder: (context) => Paper(papers.elementAt(index)))
                       );
                   },
                   child: new Card(
+                    color: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     child:new Container(
                       alignment: Alignment.center,
                       child: new Text(
-                        papers[index]["name"],
+                        papers.elementAt(index).name,
                         style: TextStyle(fontSize: 20.0, color:Colors.black),
                       ),
                     )

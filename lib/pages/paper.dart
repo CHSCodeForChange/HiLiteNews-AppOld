@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import './models/paper.dart';
 import './stories.dart';
 
 class Paper extends StatelessWidget {
-  final String name;
-  final String school;
-  final String description;
-  final String url;
+  final PaperModel paper;
 
-  Paper(this.name, this.school, this.description, this.url);
+  Paper(this.paper);
  
   @override
   Widget build(BuildContext context) {
@@ -33,6 +31,7 @@ class Paper extends StatelessWidget {
           ),
           new Flexible(
             child: new Card(
+              color: Colors.white,
               margin: const EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
               child: new Container(
@@ -45,16 +44,16 @@ class Paper extends StatelessWidget {
                           new Padding(
                             padding: new EdgeInsets.only(bottom: 5.0),
                             child: new Text(
-                              name,
+                              paper.name,
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: Colors.black),
                             ),
                           ),
 
                           new Padding(
                             padding: new EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: new Text(
-                              school,
+                              paper.school,
                               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.grey)
                             )
                           ),
@@ -62,8 +61,8 @@ class Paper extends StatelessWidget {
                           new Padding(
                             padding: new EdgeInsets.only(top: 15.0, bottom: 5.0),
                             child: new Text(
-                              description,
-                              style: TextStyle(fontSize: 16.0)
+                              paper.description,
+                              style: TextStyle(fontSize: 16.0, color: Colors.black)
 
                             ),
                           ),
@@ -87,13 +86,13 @@ class Paper extends StatelessWidget {
               child: new Container(
                 child: new Text(
                   'Select',
-                  style: TextStyle()
+                  style: TextStyle(color: Colors.black)
                 ),
               ), 
               onPressed: () {
                 Navigator.push(
                   context, 
-                  MaterialPageRoute(builder: (context) => Stories(name, url))
+                  MaterialPageRoute(builder: (context) => Stories(paper))
                 );
               },
             )
