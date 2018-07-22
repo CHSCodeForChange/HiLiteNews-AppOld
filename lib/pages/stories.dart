@@ -7,10 +7,9 @@ import 'package:html2md/html2md.dart' as html2md;
 import './models/paper.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import './models/story.dart';
 
-
-String url = 'https://www.google.com';
-String title  = 'Story Title';
+StoryModel story;
 
 class Stories extends StatefulWidget {
 
@@ -25,7 +24,7 @@ class Stories extends StatefulWidget {
 }
 
 class StoriesState extends State<Stories> {
-  List stories;
+  Iterable<StoryModel> stories;
 
   final webview = FlutterWebviewPlugin();
 
@@ -59,10 +58,9 @@ class StoriesState extends State<Stories> {
     );
     
     this.setState(() {
-      stories = JSON.decode(response.body)['posts'];
+      List raw_stories = JSON.decode(response.body)['posts'];
+      stories = (raw_stories).map((i) => new StoryModel.fromJson(i));
     });
-
-    print(stories[3]['thumbnail_images']);
   }
 
 
@@ -89,8 +87,7 @@ class StoriesState extends State<Stories> {
               itemBuilder: (BuildContext context, int index) {
                 return new GestureDetector(
                   onTap: () {
-                    url = stories[index]['url'];
-                    title = stories[index]['title'];
+                    story = stories.elementAt(index);
                     Navigator.of(context).pushNamed('/webview');
                   },
 
@@ -103,22 +100,22 @@ class StoriesState extends State<Stories> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           new Text(
-                            html2md.convert(stories[index]["title"]),
+                            stories.elementAt(index).title,
                             textAlign: TextAlign.left,
                             style: TextStyle(fontSize: 20.0, color:Colors.black, fontWeight: FontWeight.bold)
                           ),
                           new Padding (
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: new Text(
-                              stories[index]["modified"],
+                              stories.elementAt(index).date,
                               style: TextStyle(fontSize: 14.0, color:Colors.black54)
                             ), 
                           ),
-                          stories[index]['thumbnail_images'] == null ? new Container() : Image.network(stories[index]['thumbnail_images']['medium']['url']),
+                          stories.elementAt(index).image == null ? new Container() : stories.elementAt(index).image,
                           new Padding (
                             padding: EdgeInsets.only(top: 10.0),
                             child: new Text(
-                              html2md.convert(stories[index]["excerpt"]),
+                              stories.elementAt(index).excerpt,
                               style: TextStyle(fontSize: 14.0, color:Colors.black)
                             ), 
                           )

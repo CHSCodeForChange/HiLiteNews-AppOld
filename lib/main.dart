@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (_) => Papers(),
         "/webview": (_) => WebviewScaffold(
-              url: url,
+              url: story.url,
               appBar: AppBar(
-                title: Text(title),
+                title: Text(story.title),
                 backgroundColor: Colors.deepPurple,
               ),
               withJavascript: true,
