@@ -28,15 +28,26 @@ class StoriesState extends State<Stories> {
 
   final webview = FlutterWebviewPlugin();
 
+  ScrollController controller = new ScrollController();
  
 
   final PaperModel paper;
   StoriesState(this.paper);
 
+  int count = 10;
+
 
   @override
   void initState() {
     this.getData();
+
+    controller.addListener(() {
+      if (controller.position.pixels == controller.position.maxScrollExtent) {
+        count += 5;
+        getData();
+      }
+    });
+
     webview.close();
   }
   
@@ -44,12 +55,28 @@ class StoriesState extends State<Stories> {
    @override
   void dispose() {
       webview.dispose();
+      controller.dispose();
       super.dispose();
     }
 
   Future<String> getData() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      child: Container(
+        margin: EdgeInsets.all(150.0),
+        child: new Material(
+          color: Colors.white,
+          shape: CircleBorder(),
+            child: new LinearProgressIndicator(
+              backgroundColor: Colors.white,
+            )
+        ),
+      )
+            
+    );
 
-    String url = this.paper.website + '?json=get_recent_posts&count=12&page=1&include=posts,title,excerpt,thumbnail,url,modified,custom_fields';
+    String url = this.paper.website + '?json=get_recent_posts&count=' + count.toString() + '&page=1&include=posts,title,excerpt,thumbnail,url,modified,custom_fields';
     var response = await http.get(
       Uri.encodeFull(url),
       headers: {
@@ -61,8 +88,9 @@ class StoriesState extends State<Stories> {
       List raw_stories = JSON.decode(response.body)['posts'];
       stories = (raw_stories).map((i) => new StoryModel.fromJson(i));
     });
-  }
 
+    Navigator.pop(context);
+  }
 
 
   @override
@@ -84,6 +112,7 @@ class StoriesState extends State<Stories> {
             child: new ListView.builder(
               itemCount: stories == null ? 0 : stories.length,
               padding: new EdgeInsets.all(8.0),
+              controller: controller,
               itemBuilder: (BuildContext context, int index) {
                 return new GestureDetector(
                   onTap: () {
