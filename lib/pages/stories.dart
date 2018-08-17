@@ -2,39 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:html2md/html2md.dart' as html2md;
-
-import './models/paper.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import './models/story.dart';
 
-StoryModel story;
+import './models/story.dart';
+import './story.dart';
 
 class Stories extends StatefulWidget {
+    final String category;
+    Stories(this.category);
 
-
-    final PaperModel paper;
-
-    Stories(this.paper);
 
     @override
-    StoriesState createState() => new StoriesState(this.paper);
+    StoriesState createState() => new StoriesState(this.category);
 
 }
 
 class StoriesState extends State<Stories> {
-  Iterable<StoryModel> stories;
-
   final webview = FlutterWebviewPlugin();
-
+  Iterable<StoryModel> stories;
   ScrollController controller = new ScrollController();
  
-
-  final PaperModel paper;
-  StoriesState(this.paper);
-
+  final String domain = 'https://hilite.org';
+  final String category;
   int count = 10;
+
+  StoriesState(this.category);
 
 
   @override
@@ -54,29 +47,19 @@ class StoriesState extends State<Stories> {
 
    @override
   void dispose() {
-      webview.dispose();
-      controller.dispose();
-      super.dispose();
-    }
+    webview.dispose();
+    controller.dispose();
+    super.dispose();
+  }
 
   Future<String> getData() async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      child: Container(
-        margin: EdgeInsets.all(150.0),
-        child: new Material(
-          color: Colors.white,
-          shape: CircleBorder(),
-            child: new LinearProgressIndicator(
-              backgroundColor: Colors.white,
-            )
-        ),
-      )
-            
-    );
+    String url = this.domain + '/?json=get_recent_posts';
+    if (this.category != null) {
+      url = this.domain + '/?json=get_category_posts&slug=' + this.category;
+    }
 
-    String url = this.paper.website + '?json=get_recent_posts&count=' + count.toString() + '&page=1&include=posts,title,excerpt,thumbnail,url,modified,custom_fields';
+    url += '&count=' + this.count.toString() + '&page=1&include=posts,title,excerpt,thumbnail,url,modified,custom_fields';
+
     var response = await http.get(
       Uri.encodeFull(url),
       headers: {
@@ -84,80 +67,64 @@ class StoriesState extends State<Stories> {
       }
     );
     
-    this.setState(() {
-      List raw_stories = JSON.decode(response.body)['posts'];
-      stories = (raw_stories).map((i) => new StoryModel.fromJson(i));
-    });
-
-    Navigator.pop(context);
+    if (this.mounted) {
+      this.setState(() {
+        List raw_stories = JSON.decode(response.body)['posts'];
+        stories = (raw_stories).map((i) => new StoryModel.fromJson(i));
+      });
+    }
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return new Material(
-      color: Colors.deepPurple,
-      child: new Column(
-        children: <Widget>[
-          new Container(
-            margin: EdgeInsets.only(top:20.0, bottom: 5.0),
-            child: new Text(
-              paper.name,
-              
-              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: Colors.white),
+    return new ListView.builder(
+      itemCount: stories == null ? 0 : stories.length,
+      padding: new EdgeInsets.all(8.0),
+      controller: controller,
+      itemBuilder: (BuildContext context, int index) {
+        return new GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Story(stories.elementAt(index))),
+            );
+          },
 
-            )
-          ),
-          new Expanded(
-            child: new ListView.builder(
-              itemCount: stories == null ? 0 : stories.length,
-              padding: new EdgeInsets.all(8.0),
-              controller: controller,
-              itemBuilder: (BuildContext context, int index) {
-                return new GestureDetector(
-                  onTap: () {
-                    story = stories.elementAt(index);
-                    Navigator.of(context).pushNamed('/webview');
-                  },
-
-                  child: new Card(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                    child: new Container(
-                      margin: EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new Text(
-                            stories.elementAt(index).title,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: 20.0, color:Colors.black, fontWeight: FontWeight.bold)
-                          ),
-                          new Padding (
-                            padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                            child: new Text(
-                              stories.elementAt(index).date,
-                              style: TextStyle(fontSize: 14.0, color:Colors.black54)
-                            ), 
-                          ),
-                          stories.elementAt(index).image == null ? new Container() : stories.elementAt(index).image,
-                          new Padding (
-                            padding: EdgeInsets.only(top: 10.0),
-                            child: new Text(
-                              stories.elementAt(index).excerpt,
-                              style: TextStyle(fontSize: 14.0, color:Colors.black)
-                            ), 
-                          )
-                        ],
-                      ),
-                    )
+          child: new Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+            child: new Container(
+              margin: EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new Text(
+                    stories.elementAt(index).title,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 20.0, color:Colors.black, fontWeight: FontWeight.bold)
+                  ),
+                  new Padding (
+                    padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                    child: new Text(
+                      stories.elementAt(index).date,
+                      style: TextStyle(fontSize: 14.0, color:Colors.black54)
+                    ), 
+                  ),
+                  stories.elementAt(index).image == null ? new Container() : stories.elementAt(index).image,
+                  new Padding (
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: new Text(
+                      stories.elementAt(index).excerpt,
+                      style: TextStyle(fontSize: 14.0, color:Colors.black)
+                    ), 
                   )
-                );
-              },
+                ],
+              ),
             )
           )
-        ],
-      )
+        );
+      },
     );
   }
 }
