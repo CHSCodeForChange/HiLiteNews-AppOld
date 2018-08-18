@@ -7,6 +7,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 import './models/story.dart';
 import './story.dart';
+import './models/colors.dart';
 
 class Stories extends StatefulWidget {
     final String category;
@@ -52,7 +53,28 @@ class StoriesState extends State<Stories> {
     super.dispose();
   }
 
+  void showAlert() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      child: new Dialog(
+        child: new Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            new CircularProgressIndicator(),
+            new Text("Loading"),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void hideAlert(BuildContext ctext) {
+    Navigator.pop(ctext); //pop dialog
+  }
+
   Future<String> getData() async {
+
     String url = this.domain + '/?json=get_recent_posts';
     if (this.category != null) {
       url = this.domain + '/?json=get_category_posts&slug=' + this.category;
@@ -73,58 +95,66 @@ class StoriesState extends State<Stories> {
         stories = (raw_stories).map((i) => new StoryModel.fromJson(i));
       });
     }
+
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
-      itemCount: stories == null ? 0 : stories.length,
-      padding: new EdgeInsets.all(8.0),
-      controller: controller,
-      itemBuilder: (BuildContext context, int index) {
-        return new GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Story(stories.elementAt(index))),
-            );
-          },
+    return new Material(
+      color: MyColors.blue(),
+      child: ListView.builder(
+        itemCount: stories == null ? 0 : stories.length,
+        padding: new EdgeInsets.all(8.0),
+        controller: controller,
+        itemBuilder: (BuildContext context, int index) {
+          return new GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Story(stories.elementAt(index))),
+              );
+            },
 
-          child: new Card(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-            child: new Container(
-              margin: EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Text(
-                    stories.elementAt(index).title,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 20.0, color:Colors.black, fontWeight: FontWeight.bold)
-                  ),
-                  new Padding (
-                    padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                    child: new Text(
-                      stories.elementAt(index).date,
-                      style: TextStyle(fontSize: 14.0, color:Colors.black54)
-                    ), 
-                  ),
-                  stories.elementAt(index).image == null ? new Container() : stories.elementAt(index).image,
-                  new Padding (
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: new Text(
-                      stories.elementAt(index).excerpt,
-                      style: TextStyle(fontSize: 14.0, color:Colors.black)
-                    ), 
-                  )
-                ],
-              ),
+            child: new Card(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+              elevation: 0.0,
+              child: new Container(
+                margin: EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(
+                      stories.elementAt(index).title,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 20.0, color:Colors.black, fontWeight: FontWeight.bold)
+                    ),
+                    new Padding (
+                      padding: EdgeInsets.only(top: 5.0, bottom: 15.0),
+                      child: new Chip(
+                        backgroundColor: MyColors.yellow(),
+                        label: new Text(
+                          stories.elementAt(index).date,
+                          style: TextStyle(fontSize: 14.0, color:Colors.white) 
+                        ),
+                      )
+                    ),
+                    stories.elementAt(index).image == null ? new Container() : stories.elementAt(index).image,
+                    new Padding (
+                      padding: EdgeInsets.only(top: 10.0),
+                      child: new Text(
+                        stories.elementAt(index).excerpt,
+                        style: TextStyle(fontSize: 14.0, color:Colors.black)
+                      ), 
+                    )
+                  ],
+                ),
+              )
             )
-          )
-        );
-      },
+          );
+        },
+      )
     );
   }
 }

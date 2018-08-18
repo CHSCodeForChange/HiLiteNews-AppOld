@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import './models/story.dart';
 import './stories.dart';
+import './models/colors.dart';
+
 
 class Home extends StatelessWidget {
   @override
@@ -11,7 +13,9 @@ class Home extends StatelessWidget {
         length: 10,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: MyColors.blue(),
             bottom: TabBar(
+              indicatorColor: MyColors.yellow(),
               isScrollable: true,
               tabs: [
                 Tab(text: 'All',),
