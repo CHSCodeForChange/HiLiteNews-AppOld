@@ -159,7 +159,7 @@ class StoriesState extends State<Stories> {
                 padding: EdgeInsets.all(30.0),
                 child: new Container(
                   child: new LinearProgressIndicator(
-                    backgroundColor: Colors.white,
+                    backgroundColor: MyColors.semiTransYellow(),
                     valueColor: AlwaysStoppedAnimation<Color>(MyColors.yellow()),
                   ),
                 )

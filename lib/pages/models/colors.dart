@@ -10,4 +10,8 @@ class MyColors {
   static Color yellow() {
     return Color.fromRGBO(243, 201, 94, 1.0);
   }
+
+  static Color semiTransYellow() {
+    return Color.fromRGBO(243, 201, 94, 0.5);
+  }
 }
