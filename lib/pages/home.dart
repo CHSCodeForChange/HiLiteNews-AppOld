@@ -4,7 +4,6 @@ import './models/story.dart';
 import './stories.dart';
 import './models/colors.dart';
 
-
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

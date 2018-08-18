@@ -10,6 +10,4 @@ class MyColors {
   static Color yellow() {
     return Color.fromRGBO(243, 201, 94, 1.0);
   }
-
-
 }
