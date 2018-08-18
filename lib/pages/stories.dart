@@ -158,12 +158,11 @@ class StoriesState extends State<Stories> {
               child: new Container(
                 padding: EdgeInsets.all(30.0),
                 child: new Container(
-                  child: new LinearProgressIndicator(),
+                  child: new LinearProgressIndicator(
+                    backgroundColor: Colors.white,
+                    valueColor: AlwaysStoppedAnimation<Color>(MyColors.yellow()),
+                  ),
                 )
-                // child: new Text(
-                //   'Loading...', 
-                //   style: TextStyle(color:Colors.black),
-                // )
               ),
             );
           }
