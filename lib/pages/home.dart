@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import './models/story.dart';
+import './search.dart';
 import './stories.dart';
 import './models/colors.dart';
 
@@ -9,14 +9,17 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 10,
+        length: 11,
+        initialIndex: 1,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: MyColors.blue(),
             bottom: TabBar(
               indicatorColor: MyColors.yellow(),
               isScrollable: true,
+
               tabs: [
+                Tab(icon: Icon(Icons.search)),
                 Tab(text: 'All',),
                 Tab(text: 'News',),
                 Tab(text: 'Feature',),
@@ -33,6 +36,7 @@ class Home extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
+              new Search(),
               new Stories(null),
               new Stories('news'),
               new Stories('feature'),

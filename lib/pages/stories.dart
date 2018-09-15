@@ -54,26 +54,6 @@ class StoriesState extends State<Stories> {
     super.dispose();
   }
 
-  void showAlert() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      child: new Dialog(
-        child: new Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            new CircularProgressIndicator(),
-            new Text("Loading"),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void hideAlert(BuildContext ctext) {
-    Navigator.pop(ctext); //pop dialog
-  }
-
   Future<String> getData() async {
     String url = this.domain + '/?json=get_recent_posts';
     if (this.category != null) {
@@ -91,7 +71,7 @@ class StoriesState extends State<Stories> {
     
     if (this.mounted) {
       this.setState(() {
-        List raw_stories = JSON.decode(response.body)['posts'];
+        List raw_stories = json.decode(response.body)['posts'];
         stories = (raw_stories).map((i) => new StoryModel.fromJson(i));
       });
     }
