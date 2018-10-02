@@ -307,6 +307,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0+1"
+  share:
+    dependency: "direct main"
+    description:
+      name: share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3"
   shelf:
     dependency: transitive
     description:
@@ -454,3 +461,4 @@ packages:
     version: "2.1.15"
 sdks:
   dart: ">=2.0.0 <=2.1.0-dev.3.1.flutter-760a9690c2"
+  flutter: ">=0.1.4 <2.0.0"
