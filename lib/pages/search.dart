@@ -121,7 +121,7 @@ class SearchState extends State<Search> {
                               child: new Chip(
                                 backgroundColor: MyColors.yellow(),
                                 label: new Text(
-                                  stories.elementAt(index).date,
+                                  stories.elementAt(index).timeDiff(),
                                   style: TextStyle(fontSize: 14.0, color:Colors.white) 
                                 ),
                               )

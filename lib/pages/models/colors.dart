@@ -7,6 +7,11 @@ class MyColors {
     return Color.fromRGBO(75, 110, 163, 1.0);
   }
 
+  static Color offWhite() {
+    int mag = 240;
+    return Color.fromRGBO(mag, mag, mag, 1.0);
+  }
+
   static Color yellow() {
     return Color.fromRGBO(243, 201, 94, 1.0);
   }

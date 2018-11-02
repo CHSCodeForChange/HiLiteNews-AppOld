@@ -60,7 +60,7 @@ class StoriesState extends State<Stories> {
       url = this.domain + '/?json=get_category_posts&slug=' + this.category;
     }
 
-    url += '&count=' + this.count.toString() + '&page=1&include=posts,title,excerpt,thumbnail,url,modified,custom_fields';
+    url += '&count=' + this.count.toString() + '&page=1&include=posts,title,excerpt,thumbnail,url,date,custom_fields,tags';
 
     var response = await http.get(
       Uri.encodeFull(url),
@@ -68,6 +68,8 @@ class StoriesState extends State<Stories> {
         "Accept": "application/json"
       }
     );
+
+    print(url);
     
     if (this.mounted) {
       this.setState(() {
@@ -81,10 +83,9 @@ class StoriesState extends State<Stories> {
   @override
   Widget build(BuildContext context) {
     return new Material(
-      color: MyColors.blue(),
+      color: MyColors.offWhite(),
       child: ListView.builder(
         itemCount: stories == null ? 1 : stories.length + 1,
-        padding: new EdgeInsets.all(8.0),
         controller: controller,
         itemBuilder: (BuildContext context, int index) {
           if (index < (stories == null ? 0  : stories.length)) {
@@ -97,36 +98,52 @@ class StoriesState extends State<Stories> {
               },
 
               child: new Card(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
                 child: new Container(
-                  margin: EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new Text(
-                        stories.elementAt(index).title,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 20.0, color:Colors.black, fontWeight: FontWeight.bold)
+                      stories.elementAt(index).image == null ? new Container() :  
+                      new Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: <Widget>[
+                          stories.elementAt(index).image,
+                          stories.elementAt(index).isTagNull() ? new Container() : 
+                            new Padding(
+                              padding: EdgeInsets.only(bottom: 10.0, left: 15.0),
+                              child: new Chip(
+                                shape: RoundedRectangleBorder(),
+                                backgroundColor: MyColors.yellow(),
+                                label: new Text(
+                                  stories.elementAt(index).topTag,
+                                  style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
+                                ),
+                              )
+                            )
+                        ],
                       ),
                       new Padding (
-                        padding: EdgeInsets.only(top: 5.0, bottom: 15.0),
-                        child: new Chip(
-                          backgroundColor: MyColors.yellow(),
-                          label: new Text(
-                            stories.elementAt(index).date,
-                            style: TextStyle(fontSize: 14.0, color:Colors.white) 
-                          ),
+                        padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                        child: new Text(
+                          stories.elementAt(index).title,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 25.0, color:Colors.black, fontWeight: FontWeight.bold)
+                        ),
+                      ),
+                      stories.elementAt(index).isExcerptNull() ? new Container() :
+                        new Padding (
+                          padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                          child: new Text(
+                            stories.elementAt(index).excerpt,
+                            style: TextStyle(fontSize: 14.0, color:Colors.black)
+                          ), 
+                        ),
+                      new Padding (
+                        padding: EdgeInsets.only(top: 5.0, bottom: 10.0, left: 10.0, right: 10.0),
+                        child: new Text(
+                          stories.elementAt(index).timeDiff() + stories.elementAt(index).getAuthor(),
+                          style: TextStyle(fontSize: 16.0, color: Colors.black)
                         )
                       ),
-                      stories.elementAt(index).image == null ? new Container() : stories.elementAt(index).image,
-                      new Padding (
-                        padding: EdgeInsets.only(top: 10.0),
-                        child: new Text(
-                          stories.elementAt(index).excerpt,
-                          style: TextStyle(fontSize: 14.0, color:Colors.black)
-                        ), 
-                      )
                     ],
                   ),
                 )
@@ -134,7 +151,6 @@ class StoriesState extends State<Stories> {
             );
           } else {
             return new Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
               child: new Container(
                 padding: EdgeInsets.all(30.0),
                 child: new Container(

@@ -32,7 +32,7 @@ class Home extends StatelessWidget {
                 Tab(text: 'Online Only',),
               ],
             ),
-            title: Text('HiLite Newspaper'),
+            title: Text('HiLite Newspaper', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5),),
           ),
           body: TabBarView(
             children: [
