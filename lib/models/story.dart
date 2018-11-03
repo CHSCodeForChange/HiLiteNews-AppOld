@@ -25,7 +25,7 @@ class StoryModel {
     comments = json['comment_count'] == null ? 0 : json['comment_count'];
   }
 
-  String timeDiff () {
+  String getTimeDiff () {
     Duration diff = DateTime.now().difference(date);
     if (diff.inSeconds < 60) {
       return diff.inSeconds.toString() + (diff.inSeconds > 1 ? " Seconds Ago" : " Second Ago");
@@ -51,6 +51,10 @@ class StoryModel {
   }
 
   String getAuthor() {
-    return author != null && author != "" ? " • By " + author : "";
+    return author != null && author != "" ? author : "";
+  }
+
+  String getInfo() {
+    return getTimeDiff() + " • By " + getAuthor();
   }
 }

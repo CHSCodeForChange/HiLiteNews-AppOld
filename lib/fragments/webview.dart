@@ -1,16 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:share/share.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import './models/story.dart';
-import './models/colors.dart';
+import '../models/story.dart';
+import '../models/colors.dart';
 
-
-class Story extends StatelessWidget { 
+class Webview extends StatelessWidget { 
   final StoryModel story;
-  Story(this.story);
+  Webview(this.story);
 
   @override
   Widget build(BuildContext context) {

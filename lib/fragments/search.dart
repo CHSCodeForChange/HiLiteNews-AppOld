@@ -5,10 +5,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import './models/story.dart';
+import '../models/story.dart';
+import '../models/colors.dart';
 import './story.dart';
-import './models/colors.dart';
-import './home.dart';
+import './webview.dart';
 
 class Search extends StatefulWidget {
 
@@ -95,50 +95,7 @@ class SearchState extends State<Search> {
               padding: new EdgeInsets.all(8.0),
               controller: controller,
               itemBuilder: (BuildContext context, int index) {
-                  return new GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Story(stories.elementAt(index))),
-                      );
-                    },
-
-                    child: new Card(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                      child: new Container(
-                        margin: EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new Text(
-                              stories.elementAt(index).title,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: 20.0, color:Colors.black, fontWeight: FontWeight.bold)
-                            ),
-                            new Padding (
-                              padding: EdgeInsets.only(top: 5.0, bottom: 15.0),
-                              child: new Chip(
-                                backgroundColor: MyColors.yellow(),
-                                label: new Text(
-                                  stories.elementAt(index).timeDiff(),
-                                  style: TextStyle(fontSize: 14.0, color:Colors.white) 
-                                ),
-                              )
-                            ),
-                            stories.elementAt(index).image == null ? new Container() : stories.elementAt(index).image,
-                            new Padding (
-                              padding: EdgeInsets.only(top: 10.0),
-                              child: new Text(
-                                stories.elementAt(index).excerpt,
-                                style: TextStyle(fontSize: 14.0, color:Colors.black)
-                              ), 
-                            )
-                          ],
-                        ),
-                      )
-                    )
-                  );
+                new Story(stories.elementAt(index));
               },
             )
           )
