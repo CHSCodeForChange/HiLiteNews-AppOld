@@ -9,6 +9,7 @@ class StoryModel {
   String url;
   String author;
   String topTag;
+  int comments;
 
 
   StoryModel(this.title, this.date, this.image, this.excerpt, this.url);
@@ -21,6 +22,7 @@ class StoryModel {
     url = json['url'];
     author = json['custom_fields']['writer'] != null ? json['custom_fields']['writer'][0] : "";
     topTag = json['tags'] != null && json['tags'].length > 0 ? "#" + json['tags'][0]['title'].toString().toUpperCase() : "";
+    comments = json['comment_count'] == null ? 0 : json['comment_count'];
   }
 
   String timeDiff () {
@@ -49,6 +51,6 @@ class StoryModel {
   }
 
   String getAuthor() {
-    return author != null && author != "" ? ", By " + author : "";
+    return author != null && author != "" ? " • By " + author : "";
   }
 }

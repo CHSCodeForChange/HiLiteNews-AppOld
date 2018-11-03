@@ -60,7 +60,7 @@ class StoriesState extends State<Stories> {
       url = this.domain + '/?json=get_category_posts&slug=' + this.category;
     }
 
-    url += '&count=' + this.count.toString() + '&page=1&include=posts,title,excerpt,thumbnail,url,date,custom_fields,tags';
+    url += '&count=' + this.count.toString() + '&page=1&include=posts,title,excerpt,thumbnail,url,date,custom_fields,tags,comment_count';
 
     var response = await http.get(
       Uri.encodeFull(url),
@@ -129,21 +129,28 @@ class StoriesState extends State<Stories> {
                           style: TextStyle(fontSize: 25.0, color:Colors.black, fontWeight: FontWeight.bold)
                         ),
                       ),
+                      new Padding (
+                        padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                        child: new Text(
+                          stories.elementAt(index).timeDiff() + stories.elementAt(index).getAuthor(),
+                          style: TextStyle(fontSize: 16.0, color: Colors.grey)
+                        )
+                      ),
                       stories.elementAt(index).isExcerptNull() ? new Container() :
                         new Padding (
-                          padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                          padding: EdgeInsets.only(top: 5.0, bottom: 10.0, left: 10.0, right: 10.0),
                           child: new Text(
                             stories.elementAt(index).excerpt,
                             style: TextStyle(fontSize: 14.0, color:Colors.black)
                           ), 
                         ),
-                      new Padding (
-                        padding: EdgeInsets.only(top: 5.0, bottom: 10.0, left: 10.0, right: 10.0),
-                        child: new Text(
-                          stories.elementAt(index).timeDiff() + stories.elementAt(index).getAuthor(),
-                          style: TextStyle(fontSize: 16.0, color: Colors.black)
-                        )
-                      ),
+                      // new Padding (
+                      //   padding: EdgeInsets.only(top: 5.0, bottom: 10.0, left: 10.0, right: 10.0),
+                      //   child: new Text(
+                      //     stories.elementAt(index).comments.toString() + " Comments",
+                      //     style: TextStyle(fontSize: 16.0, color: Colors.black)
+                      //   )
+                      // ),
                     ],
                   ),
                 )
