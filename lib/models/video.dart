@@ -12,7 +12,7 @@ class VideoModel {
     title = json['snippet']['title'];
     excerpt = json['snippet']['description'];
     date = DateTime.parse(json['snippet']['publishedAt']);
-    image =Image.network(json['snippet']['thumbnails']['high']['url'], scale: .5, fit: BoxFit.fitWidth,);
+    image =Image.network(json['snippet']['thumbnails']['medium']['url'], scale: .5, fit: BoxFit.fitWidth,);
     url = "https://www.youtube.com/watch?v=" + json['snippet']['resourceId']['videoId'];
   }
 

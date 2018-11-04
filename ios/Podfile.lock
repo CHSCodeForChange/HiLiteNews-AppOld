@@ -4,14 +4,23 @@ PODS:
     - Flutter
   - flutter_webview_plugin (0.0.1):
     - Flutter
+  - flutter_youtube (0.0.1):
+    - Flutter
+    - XCDYouTubeKit
   - share (0.5.2):
     - Flutter
+  - XCDYouTubeKit (2.5.6)
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
+  - flutter_youtube (from `.symlinks/plugins/flutter_youtube/ios`)
   - share (from `.symlinks/plugins/share/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - XCDYouTubeKit
 
 EXTERNAL SOURCES:
   Flutter:
@@ -20,6 +29,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_webview_plugin:
     :path: ".symlinks/plugins/flutter_webview_plugin/ios"
+  flutter_youtube:
+    :path: ".symlinks/plugins/flutter_youtube/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
 
@@ -27,7 +38,9 @@ SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
   flutter_local_notifications: 696a74904e0a0ab754e27a5f761da4a7f9153710
   flutter_webview_plugin: 116575b48572029304775b768e9f15ebfc316274
+  flutter_youtube: e237870de392a5ee800e9c36a13796ed887718b2
   share: 222b5dcc8031238af9d7de91149df65bad1aef75
+  XCDYouTubeKit: dccfe0c17dd5c5187969ec27e93069573badb08f
 
 PODFILE CHECKSUM: 1e5af4103afd21ca5ead147d7b81d06f494f51a2
 

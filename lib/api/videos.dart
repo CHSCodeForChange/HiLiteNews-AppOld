@@ -9,15 +9,15 @@ class VideosAPI extends API {
 
   static String nextPageToken;
 
-  Future<Iterable<VideoModel>> getData(String category, bool next_page) async {
-    String url = youtube + '/playlistItems?part=snippet%2CcontentDetails%2Cstatus'
+  Future<Iterable<VideoModel>> getData(bool next_page) async {
+    String url = youtube + 'playlistItems?part=snippet,contentDetails';
 
     if (next_page) {
       url += '&pageToken=' + nextPageToken;
     }
     
     url += '&playlistId=UU8K4aIVcOuVYArzo2EColaw&key=' + youtubeToken;
-    
+
     var response = await http.get(
       Uri.encodeFull(url),
       headers: {
@@ -28,7 +28,7 @@ class VideosAPI extends API {
     nextPageToken = json.decode(response.body)['nextPageToken'];
 
     List rawVideos = json.decode(response.body)['items'];
-    return (rawVideo).map((i) => new VideoModel.fromJson(i));
+    return (rawVideos).map((i) => new VideoModel.fromJson(i));
   }
 }
 

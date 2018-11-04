@@ -9,34 +9,24 @@ import './video.dart';
 import '../loader.dart';
 
 class Videos extends StatefulWidget {
-    final String category;
-    Videos(this.category);
-
-
     @override
-    VideosState createState() => new VideosState(this.category);
-
+    VideosState createState() => new VideosState();
 }
 
 class VideosState extends State<Videos> {
   final webview = FlutterWebviewPlugin();
-  Iterable<VideoModel> stories;
+  List<VideoModel> videos = [];
   ScrollController controller = new ScrollController();
  
-  final String category;
-  int count = 10;
-
-  VideosState(this.category);
-
-
   @override
   void initState() {
-    this.getData();
+    print("starting");
+    
+    this.getData(false);
 
     controller.addListener(() {
       if (controller.position.pixels == controller.position.maxScrollExtent) {
-        count += 5;
-        getData();
+        getData(true);
       }
     });
 
@@ -44,17 +34,17 @@ class VideosState extends State<Videos> {
   }
   
 
-   @override
+  @override
   void dispose() {
     webview.dispose();
     controller.dispose();
     super.dispose();
   }
 
-  Future<void> getData() async {
-    Iterable<VideoModel> videos = await new VideosAPI().getData(category, count);
+  Future<void> getData(bool next_page) async {
+    Iterable<VideoModel> videos = await new VideosAPI().getData(next_page);
     this.setState(() {
-      this.stories = videos;
+      this.videos.addAll(videos);
     });
   }
 
@@ -64,11 +54,11 @@ class VideosState extends State<Videos> {
     return new Material(
       color: MyColors.offWhite(),
       child: ListView.builder(
-        itemCount: stories == null ? 1 : stories.length + 1,
+        itemCount: videos == null ? 1 : videos.length + 1,
         controller: controller,
         itemBuilder: (BuildContext context, int index) {
-          if (index < (stories == null ? 0  : stories.length)) {
-            return new Video(stories.elementAt(index));
+          if (index < (videos == null ? 0  : videos.length)) {
+            return new Video(videos.elementAt(index));
           } else {
             return new Loader();
           }

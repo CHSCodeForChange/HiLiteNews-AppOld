@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 
-import '../../models/colors.dart';
+import '../../api/api.dart';
 import '../../models/video.dart';
 
 
@@ -14,10 +15,12 @@ class Video extends StatelessWidget {
   Widget build(BuildContext context) {
     return new GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => new Webview(story)),
-        // );
+         FlutterYoutube.playYoutubeVideoByUrl(
+          apiKey: new API().youtubeToken,
+          videoUrl: video.url,
+          autoPlay: true,
+          fullScreen: true
+        );
       },
 
       child: new Card(

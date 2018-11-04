@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'home.dart';
 import 'sections.dart';
+import 'videos.dart';
 import '../models/colors.dart';
 
 class Main extends StatefulWidget {
@@ -13,15 +14,19 @@ class Main extends StatefulWidget {
 
 class MainState extends State<Main> {
 
-  int index = 0;
+  int index = 1;
 
   List<Widget> pages = [
+    new VideosView(),
     new HomeView(),
     new SectionsView(),
-    new HomeView(),
   ];
 
   List<BottomNavigationBarItem> navItems = [
+    new BottomNavigationBarItem(
+      icon: Icon(Icons.ondemand_video),
+      title: new Text("Videos"),
+    ),
     new BottomNavigationBarItem(
       icon: Icon(Icons.home),
       title: new Text("Home"),
@@ -30,10 +35,6 @@ class MainState extends State<Main> {
       icon: Icon(Icons.dashboard),
       title: new Text("Sections"),
     ),
-    new BottomNavigationBarItem(
-      icon: Icon(Icons.settings),
-      title: new Text("Settings"),
-    )
   ];
 
   void onTabTapped(int index) {
