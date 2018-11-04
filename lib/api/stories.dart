@@ -8,8 +8,6 @@ import '../models/story.dart';
 class StoriesAPI extends API {
 
   Future<Iterable<StoryModel>> getData(String category, int count) async {
-    print(category);
-
     String url = this.domain + '/?json=get_recent_posts';
     if (category != null) {
       url = this.domain + '/?json=get_category_posts&slug=' + category;

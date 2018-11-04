@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 
 class MyColors {
@@ -19,4 +20,14 @@ class MyColors {
   static Color semiTransYellow() {
     return Color.fromRGBO(243, 201, 94, 0.5);
   }
+
+  static int random255() {
+    Random rand = new Random();
+    return rand.nextInt(256);
+  }
+
+  static Color random() {
+    return Color.fromRGBO(random255(), random255(), random255(), 1.0);
+  }
+  
 }

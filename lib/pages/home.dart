@@ -4,7 +4,7 @@ import '../fragments/search.dart';
 import '../fragments/stories.dart';
 import '../models/colors.dart';
 
-class Home extends StatelessWidget {
+class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
+import 'sections.dart';
 import '../models/colors.dart';
 
 class Main extends StatefulWidget {
@@ -15,8 +16,9 @@ class MainState extends State<Main> {
   int index = 0;
 
   List<Widget> pages = [
-    new Home(),
-    new Home(),
+    new HomeView(),
+    new SectionsView(),
+    new HomeView(),
   ];
 
   List<BottomNavigationBarItem> navItems = [
@@ -25,8 +27,12 @@ class MainState extends State<Main> {
       title: new Text("Home"),
     ),
     new BottomNavigationBarItem(
-      icon: Icon(Icons.home),
-      title: new Text("Home"),
+      icon: Icon(Icons.dashboard),
+      title: new Text("Sections"),
+    ),
+    new BottomNavigationBarItem(
+      icon: Icon(Icons.settings),
+      title: new Text("Settings"),
     )
   ];
 

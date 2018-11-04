@@ -11,6 +11,7 @@ dependencies:
   flutter_local_notifications:
   flutter_webview_plugin: 
   flutter_launcher_icons: "^0.6.1"
+  auto_size_text:
   
 flutter_icons:
   android: true 

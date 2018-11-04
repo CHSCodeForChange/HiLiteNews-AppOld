@@ -2,18 +2,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-import '../models/section.dart';
+import '../models/tag.dart';
 import '../models/colors.dart';
-import '../api/sections.dart';
+import '../api/tags.dart';
 
 
-class Sections extends StatefulWidget {
+class Tags extends StatefulWidget {
   @override
-  SectionsState createState() => new SectionsState();
+  TagsState createState() => new TagsState();
 }
 
-class SectionsState extends State<Sections> {
-  Iterable<SectionModel> sections;
+class TagsState extends State<Tags> {
+  Iterable<TagModel> tags;
 
   @override
   void initState() {
@@ -22,24 +22,24 @@ class SectionsState extends State<Sections> {
   }
 
   Future<void> getData() async {
-    Iterable<SectionModel> sections = await new SectionsAPI().getData();
+    Iterable<TagModel> tags = await new TagsAPI().getData();
     setState(() {
-      this.sections = sections; 
+      this.tags = tags; 
     });
   }
 
-  Future<void> getImage(SectionModel section) async {
+  Future<void> getImage(TagModel section) async {
     if (section.image == null) {
       await section.fillImage();
       setState(() {
-        sections = sections;
+        tags = tags;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (sections == null) {
+    if (tags == null) {
       return new Center(
         child: new SizedBox(
           height: 50.0,
@@ -50,7 +50,7 @@ class SectionsState extends State<Sections> {
     } else {
       return new GridView.count(
         crossAxisCount: 2,
-        children: List.generate(sections.length, (index) {
+        children: List.generate(tags.length, (index) {
           return Stack(
             children: <Widget>[
               new Container(
@@ -61,10 +61,16 @@ class SectionsState extends State<Sections> {
                 child: new Column(
                   children: <Widget>[
                     new AutoSizeText(
-                      sections.elementAt(index).title,
+                      tags.elementAt(index).title,
+                      maxLines: 1,
+                      style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    new AutoSizeText(
+                      tags.elementAt(index).getCount().toString() + " Posts",
                       maxLines: 1,
                       style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
                     )
+                    
                   ],
                 ),
               )
