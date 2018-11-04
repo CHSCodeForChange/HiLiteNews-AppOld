@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
-import '../models/colors.dart';
-import '../models/story.dart';
+import '../../models/colors.dart';
+import '../../models/story.dart';
 import 'webview.dart';
 
 

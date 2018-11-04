@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:share/share.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import '../models/story.dart';
-import '../models/colors.dart';
+import '../../models/story.dart';
+import '../../models/colors.dart';
 
 class Webview extends StatelessWidget { 
   final StoryModel story;

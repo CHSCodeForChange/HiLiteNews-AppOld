@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import '../api/stories.dart';
-import '../models/story.dart';
-import '../models/colors.dart';
+import '../../api/stories.dart';
+import '../../models/story.dart';
+import '../../models/colors.dart';
 import './story.dart';
-import './loader.dart';
+import '../loader.dart';
 
 class Stories extends StatefulWidget {
     final String category;
