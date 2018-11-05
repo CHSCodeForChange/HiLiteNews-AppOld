@@ -26,11 +26,10 @@ class Story extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              story.image == null ? new Container() :  
               new Stack(
                 alignment: Alignment.bottomLeft,
                 children: <Widget>[
-                  story.image,
+                  story.image == null ? new Container() : story.image,
                   story.isTagNull() ? new Container() : 
                     new Padding(
                       padding: EdgeInsets.only(bottom: 10.0, left: 15.0),
