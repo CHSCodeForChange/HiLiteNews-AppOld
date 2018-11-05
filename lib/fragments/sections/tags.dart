@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import '../../models/tag.dart';
 import '../../models/colors.dart';
 import '../../api/tags.dart';
+import './tag.dart';
 
 
 class Tags extends StatefulWidget {
@@ -17,8 +18,8 @@ class TagsState extends State<Tags> {
 
   @override
   void initState() {
-    super.initState();
     getData();
+    super.initState();
   }
 
   Future<void> getData() async {
@@ -26,15 +27,6 @@ class TagsState extends State<Tags> {
     setState(() {
       this.tags = tags; 
     });
-  }
-
-  Future<void> getImage(TagModel section) async {
-    if (section.image == null) {
-      await section.fillImage();
-      setState(() {
-        tags = tags;
-      });
-    }
   }
 
   @override
@@ -50,32 +42,8 @@ class TagsState extends State<Tags> {
     } else {
       return new GridView.count(
         crossAxisCount: 2,
-        children: List.generate(tags.length, (index) {
-          return Stack(
-            children: <Widget>[
-              new Container(
-                color: MyColors.random(),
-              ),
-              new Container(
-                padding: EdgeInsets.all(15.0),
-                child: new Column(
-                  children: <Widget>[
-                    new AutoSizeText(
-                      tags.elementAt(index).title,
-                      maxLines: 1,
-                      style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    new AutoSizeText(
-                      tags.elementAt(index).getCount().toString() + " Posts",
-                      maxLines: 1,
-                      style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-                    )
-                    
-                  ],
-                ),
-              )
-            ],
-          );
+        children: List.generate(tags != null ? tags.length : 0, (index) {
+          return new Tag(tags.elementAt(index));
         }),
       );
     }

@@ -15,10 +15,14 @@ class TagModel {
 
   Future<void> fillImage() async {
     String url = await new TagsAPI().getImage(this);
-    image = url != null ? Image.network(url) : null;
+    image = url != null ? Image.network(url, scale: 0.25) : null;
   }
 
-  int getCount() {
+  int getCountInt() {
     return count == null ? 0 : count;
+  }
+
+  String getCount() {
+    return getCountInt().toString() + " Posts";
   }
 }

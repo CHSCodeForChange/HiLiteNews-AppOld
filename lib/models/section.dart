@@ -5,6 +5,7 @@ class SectionModel {
   String title;
   String slug;
   Image image;
+  String url;
   int count;
 
   SectionModel.fromJson(Map<String, dynamic> json) {
@@ -14,7 +15,15 @@ class SectionModel {
   }
 
   Future<void> fillImage() async {
-    String url = await new SectionsAPI().getImage(this);
-    image = url != null ? Image.network(url) : null;
+    url = await new SectionsAPI().getImage(this);
+    image = url != null ? Image.network(url, scale: 0.25,) : null;
+  }
+
+  int getCountInt() {
+    return count != null ? count : 0;
+  }
+
+  String getCount() {
+    return getCountInt().toString() + " Posts";
   }
 }

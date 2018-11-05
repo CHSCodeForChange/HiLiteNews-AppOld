@@ -33,7 +33,7 @@ class TagsAPI extends API {
 
     List rawStories = json.decode(response.body)['posts'];
     if (rawStories.length > 0 && rawStories[0]['thumbnail_images'] != null) {
-      return rawStories[0]['thumbnail_images']['medium']['url'];
+      return rawStories[0]['thumbnail_images']['thumbnail']['url'];
     }
   }
 }

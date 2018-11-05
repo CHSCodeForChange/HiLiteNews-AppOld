@@ -8,7 +8,7 @@ class SectionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new DefaultTabController(
-      initialIndex: 1,
+      initialIndex: 0,
       length: 11,
       child: Scaffold(
         backgroundColor: Colors.white,

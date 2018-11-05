@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../models/colors.dart';
 import '../../models/story.dart';
@@ -36,8 +37,9 @@ class Story extends StatelessWidget {
                       child: new Chip(
                         shape: RoundedRectangleBorder(),
                         backgroundColor: MyColors.yellow(),
-                        label: new Text(
+                        label: new AutoSizeText(
                           story.topTag,
+                          maxLines: 1,
                           style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
                         ),
                       )

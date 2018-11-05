@@ -6,6 +6,8 @@ import '../../models/section.dart';
 import '../../models/colors.dart';
 import '../../api/sections.dart';
 
+import 'section.dart';
+
 
 class Sections extends StatefulWidget {
   @override
@@ -51,25 +53,7 @@ class SectionsState extends State<Sections> {
       return new GridView.count(
         crossAxisCount: 2,
         children: List.generate(sections.length, (index) {
-          return Stack(
-            children: <Widget>[
-              new Container(
-                color: MyColors.random(),
-              ),
-              new Container(
-                padding: EdgeInsets.all(15.0),
-                child: new Column(
-                  children: <Widget>[
-                    new AutoSizeText(
-                      sections.elementAt(index).title,
-                      maxLines: 1,
-                      style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              )
-            ],
-          );
+          return new Section(sections.elementAt(index));
         }),
       );
     }
