@@ -11,7 +11,7 @@ class SectionModel {
   SectionModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     slug = json['slug'];
-    count = json['count'];
+    count = json['post_count'];
   }
 
   Future<void> fillImage() async {

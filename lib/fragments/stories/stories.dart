@@ -10,11 +10,13 @@ import '../loader.dart';
 
 class Stories extends StatefulWidget {
     final String category;
-    Stories(this.category);
+    final String tag;
+
+    Stories(this.category, this.tag);
 
 
     @override
-    StoriesState createState() => new StoriesState(this.category);
+    StoriesState createState() => new StoriesState(this.category, this.tag);
 
 }
 
@@ -24,9 +26,10 @@ class StoriesState extends State<Stories> {
   ScrollController controller = new ScrollController();
  
   final String category;
+  final String tag;
   int count = 10;
 
-  StoriesState(this.category);
+  StoriesState(this.category, this.tag);
 
 
   @override
@@ -52,7 +55,7 @@ class StoriesState extends State<Stories> {
   }
 
   Future<void> getData() async {
-    Iterable<StoryModel> stories = await new StoriesAPI().getData(category, count);
+    Iterable<StoryModel> stories = await new StoriesAPI().getData(category, tag, count);
     this.setState(() {
       this.stories = stories;
     });

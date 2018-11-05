@@ -10,7 +10,7 @@ class TagModel {
   TagModel.fromJson(Map<String, dynamic> json) {
     title = "#" + json['title'].toString().toUpperCase();
     slug = json['slug'];
-    count = json['count'];
+    count = json['post_count'];
   }
 
   Future<void> fillImage() async {

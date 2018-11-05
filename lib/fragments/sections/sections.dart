@@ -30,15 +30,6 @@ class SectionsState extends State<Sections> {
     });
   }
 
-  Future<void> getImage(SectionModel section) async {
-    if (section.image == null) {
-      await section.fillImage();
-      setState(() {
-        sections = sections;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (sections == null) {
