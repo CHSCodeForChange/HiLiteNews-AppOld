@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+import '../sections/tag-stories.dart';
 import '../../models/colors.dart';
 import '../../models/story.dart';
 import 'webview.dart';
@@ -34,14 +35,22 @@ class Story extends StatelessWidget {
                   story.isTagNull() ? new Container() : 
                     new Padding(
                       padding: EdgeInsets.only(bottom: 10.0, left: 15.0),
-                      child: new Chip(
-                        shape: RoundedRectangleBorder(),
-                        backgroundColor: MyColors.yellow(),
-                        label: new AutoSizeText(
-                          story.topTag,
-                          maxLines: 1,
-                          style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
-                        ),
+                      child: new GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => new TagStories(story.topTag)),
+                          );
+                        },
+                        child: new Chip(
+                          shape: RoundedRectangleBorder(),
+                          backgroundColor: MyColors.yellow(),
+                          label: new AutoSizeText(
+                            story.topTag.title,
+                            maxLines: 1,
+                            style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
+                          ),
+                        )
                       )
                     )
                 ],

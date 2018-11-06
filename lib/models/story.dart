@@ -1,6 +1,8 @@
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:flutter/widgets.dart';
 
+import 'tag.dart';
+
 class StoryModel {
   String title;
   DateTime date;
@@ -8,7 +10,7 @@ class StoryModel {
   String excerpt;
   String url;
   String author;
-  String topTag;
+  TagModel topTag;
   int comments;
 
 
@@ -22,17 +24,19 @@ class StoryModel {
     url = json['url'];
     author = json['custom_fields']['writer'] != null ? json['custom_fields']['writer'][0] : "";
 
-    topTag = "";
-    int topCount = 0;
     if (json['tags'] != null && json['tags'].length > 0) {
+      int topIndex = -1;
+      int topCount = 0;
       for (int i = 0; i < json['tags'].length; i++) {
         int count = json['tags'][i]['post_count'];
         if (count > topCount) {
-          topCount= count;
-          topTag = "#" + json['tags'][i]['title'].toString().toUpperCase();
+          topCount = count;
+          topIndex = i;
         }
       }
+      topTag = TagModel.fromJson(json['tags'][topIndex]);
     } 
+
 
     comments = json['comment_count'] == null ? 0 : json['comment_count'];
   }
@@ -59,7 +63,7 @@ class StoryModel {
   }
 
   bool isTagNull() {
-    return topTag == null || topTag == "";
+    return topTag == null;
   }
 
   String getAuthor() {
