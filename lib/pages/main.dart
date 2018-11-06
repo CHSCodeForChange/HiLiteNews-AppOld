@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'sections.dart';
 import 'videos.dart';
-import '../models/colors.dart';
+import '../models/notif.dart';
 
 class Main extends StatefulWidget {
 
@@ -45,6 +45,7 @@ class MainState extends State<Main> {
 
   @override 
   Widget build(BuildContext context) {
+    // (new Notifications()).showNotification("Test");
     return new Scaffold(
       bottomNavigationBar: new BottomNavigationBar(
         fixedColor: Colors.white,

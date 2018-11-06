@@ -21,7 +21,19 @@ class StoryModel {
     excerpt = html2md.convert(json['excerpt']);
     url = json['url'];
     author = json['custom_fields']['writer'] != null ? json['custom_fields']['writer'][0] : "";
-    topTag = json['tags'] != null && json['tags'].length > 0 ? "#" + json['tags'][0]['title'].toString().toUpperCase() : "";
+
+    topTag = "";
+    int topCount = 0;
+    if (json['tags'] != null && json['tags'].length > 0) {
+      for (int i = 0; i < json['tags'].length; i++) {
+        int count = json['tags'][i]['post_count'];
+        if (count > topCount) {
+          topCount= count;
+          topTag = "#" + json['tags'][i]['title'].toString().toUpperCase();
+        }
+      }
+    } 
+
     comments = json['comment_count'] == null ? 0 : json['comment_count'];
   }
 
