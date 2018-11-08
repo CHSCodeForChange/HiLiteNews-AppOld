@@ -17,7 +17,7 @@ class SectionStories extends StatelessWidget {
           backgroundColor: MyColors.blue(),
           title: Text(section.title, style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5)),
         ),   
-        body: new Stories(section.slug, null),
+        body: new Stories(section.slug, null, null),
     );
   }
 

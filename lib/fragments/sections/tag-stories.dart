@@ -17,7 +17,7 @@ class TagStories extends StatelessWidget {
           backgroundColor: MyColors.blue(),
           title: Text(tag.title, style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5)),
         ),   
-        body: new Stories(null, tag.slug),
+        body: new Stories(null, tag.slug, null),
     );
   }
 

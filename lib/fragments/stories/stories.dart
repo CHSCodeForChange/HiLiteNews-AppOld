@@ -11,12 +11,22 @@ import '../loader.dart';
 class Stories extends StatefulWidget {
     final String category;
     final String tag;
+    final String query;
+    StoriesState state;
 
-    Stories(this.category, this.tag);
+    Stories(this.category, this.tag, this.query);
 
+    void updateQuery(String query) {
+      state.query = query;
+      state.getData();
+    }
+
+    void scrollUp() {
+      state.scrollUp();
+    }
 
     @override
-    StoriesState createState() => new StoriesState(this.category, this.tag);
+    StoriesState createState() => new StoriesState(this.category, this.tag, this.query, this);
 
 }
 
@@ -25,12 +35,18 @@ class StoriesState extends State<Stories> {
   Iterable<StoryModel> stories;
   ScrollController controller = new ScrollController();
  
-  final String category;
-  final String tag;
+  String category;
+  String tag;
+  String query;
+
   int count = 10;
 
-  StoriesState(this.category, this.tag);
-
+  StoriesState (String category, String tag, String query, Stories parent) {
+    this.category = category;
+    this.tag = tag;
+    this.query = query; 
+    parent.state = this;
+  }
 
   @override
   void initState() {
@@ -55,10 +71,14 @@ class StoriesState extends State<Stories> {
   }
 
   Future<void> getData() async {
-    Iterable<StoryModel> stories = await new StoriesAPI().getData(category, tag, count);
+    Iterable<StoryModel> stories = await new StoriesAPI().getData(category, tag, query, count);
     this.setState(() {
       this.stories = stories;
     });
+  }
+
+  void scrollUp() {
+    controller.jumpTo(0.0);
   }
 
 
