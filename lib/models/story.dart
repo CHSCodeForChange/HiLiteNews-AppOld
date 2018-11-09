@@ -17,7 +17,7 @@ class StoryModel {
   StoryModel(this.title, this.date, this.image, this.excerpt, this.url);
 
   StoryModel.fromJson(Map<String, dynamic> json) {
-    title = html2md.convert(json['title']);
+    title = html2md.convert(json['title']).replaceAll(new RegExp(r'\\'), '');
     date = DateTime.parse(json['date']);
     image = json['thumbnail_images'] == null ? null : Image.network(json['thumbnail_images']['medium']['url'], scale: .5, fit: BoxFit.fitWidth,);
     excerpt = html2md.convert(json['excerpt']);

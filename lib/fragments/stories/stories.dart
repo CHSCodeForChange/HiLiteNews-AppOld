@@ -50,7 +50,9 @@ class StoriesState extends State<Stories> {
 
   @override
   void initState() {
-    this.getData();
+    if (stories == null || stories.length == 0) {
+      getData();
+    }
 
     controller.addListener(() {
       if (controller.position.pixels == controller.position.maxScrollExtent) {
