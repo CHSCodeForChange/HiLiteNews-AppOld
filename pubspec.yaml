@@ -13,6 +13,9 @@ dependencies:
   flutter_launcher_icons: "^0.6.1"
   auto_size_text:
   flutter_youtube:
+  shared_preferences:
+  sqflite:
+  path_provider:
   
 flutter_icons:
   android: true 

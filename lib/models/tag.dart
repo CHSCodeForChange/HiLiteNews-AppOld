@@ -7,6 +7,9 @@ class TagModel {
   Image image;
   int count;
 
+  TagModel(this.title, this.slug, this.count);
+
+
   TagModel.fromJson(Map<String, dynamic> json) {
     title = "#" + json['title'].toString().toUpperCase();
     slug = json['slug'];

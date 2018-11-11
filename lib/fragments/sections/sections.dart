@@ -30,6 +30,12 @@ class SectionsState extends State<Sections> {
     });
   }
 
+  @override 
+  void dispose() {
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (sections == null) {

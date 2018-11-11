@@ -1,46 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 import '../fragments/stories/search.dart';
 import '../fragments/stories/stories.dart';
 import '../models/colors.dart';
+import '../models/database.dart';
+import '../models/section.dart';
+import '../models/tag.dart';
 
-class HomeView extends StatelessWidget {
+
+class HomeView extends StatefulWidget {
+
+  @override
+  HomeViewState createState() => new HomeViewState();
+}
+
+class HomeViewState extends State<HomeView> {
 
   List<Widget> children = [
     new Search(),
-    new Stories('topstory-2', null, null),
-    new Stories(null, null, null),
-    new Stories('news', null, null),
-    new Stories('feature', null, null),
-    new Stories('student-section', null, null),
-    new Stories('entertainment', null, null),
-    new Stories('sports', null, null),
-    new Stories('perspectives', null, null),
-    new Stories('fame', null, null),
-    new Stories('just-a-minute', null, null),
-    new Stories('onlineonly', null, null),
+    new Stories(null, null, null)
   ];
 
   List<Tab> tabs = [
     Tab(icon: Icon(Icons.search)),
-    Tab(text: 'Top Story',),
-    Tab(text: 'Recent',),
-    Tab(text: 'News',),
-    Tab(text: 'Feature',),
-    Tab(text: 'Student Section',),
-    Tab(text: 'Entertainment',),
-    Tab(text: 'Sports',),
-    Tab(text: 'Perspectives',),
-    Tab(text: '15 Minutes of Fame',),
-    Tab(text: 'Just A Minute',),
-    Tab(text: 'Online Only',),
+    Tab(text: 'All',),
   ];
+
+  @override
+  void initState() {
+    fillSections().whenComplete(() {});
+    fillTags().whenComplete(() {});
+    super.initState();
+  }
+
+  Future<void> fillSections() async {
+    List<SectionModel> sections = await DBHelper().getSections();
+    for (int i = 0; i < sections.length; i++) {
+      children.add(new Stories(sections[i].slug, null, null));
+      tabs.add(new Tab(text: sections[i].title));
+    }
+    this.setState(() {
+      children = children;
+      tabs = tabs;
+    });
+  }
+
+  Future<void> fillTags() async {
+    List<TagModel> tags = await DBHelper().getTags();
+    for (int i = 0; i < tags.length; i++) {
+      children.add(new Stories(null, tags[i].slug, null));
+      tabs.add(new Tab(text: tags[i].title));
+    }
+    this.setState(() {
+      children = children;
+      tabs = tabs;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return new DefaultTabController(
       initialIndex: 1,
-      length: 11,
+      length: children.length,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: MyColors.blue(),

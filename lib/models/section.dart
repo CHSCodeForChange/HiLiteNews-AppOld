@@ -1,17 +1,33 @@
 import 'package:flutter/widgets.dart';
 import '../api/sections.dart';
 
+import 'database.dart';
+
 class SectionModel {
   String title;
   String slug;
   Image image;
   String url;
   int count;
+  bool saved;
+
+SectionModel(this.title, this.slug, this.count);
 
   SectionModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     slug = json['slug'];
     count = json['post_count'];
+    isSaved();
+  }
+
+  void isSaved() async {
+    List<SectionModel> sections = await DBHelper().getSections();
+    saved = false;
+    for (SectionModel section in sections) {
+      if (section.slug == slug) {
+        saved = true;
+      }
+    }
   }
 
   Future<void> fillImage() async {

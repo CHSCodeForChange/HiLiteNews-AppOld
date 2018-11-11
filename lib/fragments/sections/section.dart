@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../models/colors.dart';
 import '../../models/section.dart';
+import '../../models/database.dart';
 import 'section-stories.dart';
 
 class Section extends StatefulWidget {
@@ -18,7 +19,6 @@ class Section extends StatefulWidget {
 }
 
 class SectionState extends State<Section> {
-
   SectionModel section;
 
   SectionState(this.section);
@@ -76,15 +76,26 @@ class SectionState extends State<Section> {
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        new Text(
+                        new AutoSizeText(
                           section.getCount(),
+                          maxLines: 1,
                           style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         new IconButton(
-                          icon: Icon(Icons.add_circle),
+                          icon: Icon(section.saved == null || !section.saved ? Icons.add_circle : Icons.check_circle),
                           color: Colors.white, 
                           onPressed: () {
-                            
+                            if (section.saved == null || !section.saved) {
+                              DBHelper().saveSection(section);
+                              this.setState(() {
+                                section.saved = true;
+                              });
+                            } else {
+                              DBHelper().deleteSection(section);
+                              this.setState(() {
+                                section.saved = false;
+                              });
+                            }
                           },
                         )
                       ],
