@@ -11,23 +11,21 @@ class SectionModel {
   int count;
   bool saved;
 
-SectionModel(this.title, this.slug, this.count);
+  SectionModel(String title, String slug, int count) {
+    this.title = title.toUpperCase();
+    this.slug = slug;
+    this.count = count;
+  }
 
   SectionModel.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
+    title = json['title'].toString().toUpperCase();
     slug = json['slug'];
     count = json['post_count'];
     isSaved();
   }
 
   void isSaved() async {
-    List<SectionModel> sections = await DBHelper().getSections();
-    saved = false;
-    for (SectionModel section in sections) {
-      if (section.slug == slug) {
-        saved = true;
-      }
-    }
+    saved = await DBHelper().isSectionSaved(this);
   }
 
   Future<void> fillImage() async {

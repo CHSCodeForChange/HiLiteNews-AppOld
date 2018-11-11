@@ -9,14 +9,13 @@ class SectionsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return new DefaultTabController(
       initialIndex: 0,
-      length: 11,
+      length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: MyColors.blue(),
           bottom: TabBar(
             indicatorColor: MyColors.yellow(),
-            isScrollable: true,
             tabs: [
               Tab(text: "Sections"),
               Tab(text: "Tags"),

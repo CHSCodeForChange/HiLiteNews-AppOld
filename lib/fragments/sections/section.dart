@@ -20,6 +20,7 @@ class Section extends StatefulWidget {
 
 class SectionState extends State<Section> {
   SectionModel section;
+  final double blur = 2.0;
 
   SectionState(this.section);
 
@@ -29,11 +30,18 @@ class SectionState extends State<Section> {
     super.initState();
   }
 
+  @override 
+  void dispose() {
+    super.dispose();
+  }
+
   Future<void> getData() async {
     await section.fillImage();
-    setState(() {
-      section = section;
-    });
+    if (this.mounted) {
+      setState(() {
+        section = section;
+      });
+    }
   }
 
   @override 
@@ -51,7 +59,7 @@ class SectionState extends State<Section> {
             color: MyColors.random(),
           ),
           section.image != null ? new BackdropFilter(
-            filter: new ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+            filter: new ImageFilter.blur(sigmaX: blur, sigmaY: blur),
             child: new Container(
               decoration: new BoxDecoration(color: Colors.white.withOpacity(0.0)),
             ),

@@ -1,11 +1,13 @@
 import 'package:flutter/widgets.dart';
 import '../api/tags.dart';
+import '../models/database.dart';
 
 class TagModel {
   String title;
   String slug;
   Image image;
   int count;
+  bool saved;
 
   TagModel(this.title, this.slug, this.count);
 
@@ -14,6 +16,11 @@ class TagModel {
     title = "#" + json['title'].toString().toUpperCase();
     slug = json['slug'];
     count = json['post_count'];
+   isSaved();
+  }
+
+  void isSaved() async {
+    saved = await DBHelper().isTagSaved(this);
   }
 
   Future<void> fillImage() async {

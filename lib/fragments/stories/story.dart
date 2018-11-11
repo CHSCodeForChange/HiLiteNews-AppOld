@@ -34,7 +34,7 @@ class Story extends StatelessWidget {
                   story.image == null ? new Container() : story.image,
                   story.isTagNull() ? new Container() : 
                     new Padding(
-                      padding: EdgeInsets.only(bottom: 10.0, left: 15.0),
+                      padding: EdgeInsets.only(bottom: story.image == null ? 0.0 : 10.0, left: 15.0),
                       child: new GestureDetector(
                         onTap: () {
                           Navigator.push(

@@ -14,19 +14,24 @@ class Tags extends StatefulWidget {
 }
 
 class TagsState extends State<Tags> {
-  Iterable<TagModel> tags;
+  List<TagModel> tagsOg;
+  List<TagModel> tags;
+  ScrollController controller;
 
   @override
   void initState() {
+    controller = new ScrollController();
     getData();
     super.initState();
   }
 
   Future<void> getData() async {
-    Iterable<TagModel> tags = await new TagsAPI().getData();
-    setState(() {
-      this.tags = tags; 
-    });
+    tagsOg = (await new TagsAPI().getData()).toList();
+    if (this.mounted) {
+      setState(() {
+        this.tags = tagsOg; 
+      });
+    }
   }
 
   @override
@@ -40,11 +45,37 @@ class TagsState extends State<Tags> {
         ),
       );
     } else {
-      return new GridView.count(
-        crossAxisCount: 2,
-        children: List.generate(tags != null ? tags.length : 0, (index) {
-          return new Tag(tags.elementAt(index));
-        }),
+      return new Column(
+        children: <Widget>[
+          new Container(
+            margin: EdgeInsets.all(10.0),
+            child: TextField(
+              onChanged: (String query) {
+                tags = tagsOg.sublist(0,tagsOg.length);
+                tags.retainWhere((item) => item.title.contains(query.toUpperCase()));
+                this.setState(() {
+                  tags = tags;
+                });
+              },
+
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                fillColor: MyColors.yellow(),
+                filled: true,
+                hintText: "Search",
+              ),
+            ),
+          ),
+          new Expanded(
+            child: new GridView.count(
+              controller: controller,
+              crossAxisCount: 2,
+              children: new List.generate(tags != null ? tags.length : 0, (index) {
+                return new Tag(tags.elementAt(index));
+              }),
+            )
+          )
+        ],
       );
     }
   }

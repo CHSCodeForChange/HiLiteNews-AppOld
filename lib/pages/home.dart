@@ -8,7 +8,6 @@ import '../models/database.dart';
 import '../models/section.dart';
 import '../models/tag.dart';
 
-
 class HomeView extends StatefulWidget {
 
   @override
@@ -26,23 +25,26 @@ class HomeViewState extends State<HomeView> {
     Tab(icon: Icon(Icons.search)),
     Tab(text: 'All',),
   ];
+  
+  bool areSectionsFinished = false;
+  bool areTagsFinished = false;
 
   @override
   void initState() {
-    fillSections().whenComplete(() {});
-    fillTags().whenComplete(() {});
+    fillSections().whenComplete(() {areSectionsFinished = true;});
+    fillTags().whenComplete(() {areTagsFinished = true;}); 
     super.initState();
   }
 
   Future<void> fillSections() async {
     List<SectionModel> sections = await DBHelper().getSections();
     for (int i = 0; i < sections.length; i++) {
-      children.add(new Stories(sections[i].slug, null, null));
       tabs.add(new Tab(text: sections[i].title));
+      children.add(new Stories(sections[i].slug, null, null));
     }
     this.setState(() {
-      children = children;
       tabs = tabs;
+      children = children;
     });
   }
 
@@ -53,30 +55,34 @@ class HomeViewState extends State<HomeView> {
       tabs.add(new Tab(text: tags[i].title));
     }
     this.setState(() {
-      children = children;
       tabs = tabs;
+      children = children;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return new DefaultTabController(
-      initialIndex: 1,
-      length: children.length,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: MyColors.blue(),
-          bottom: TabBar(
-            indicatorColor: MyColors.yellow(),
-            isScrollable: true,
-            tabs: tabs
+    return !areSectionsFinished || !areTagsFinished ? 
+      new Center(
+        child: new CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(MyColors.yellow())),
+      ) :
+      new DefaultTabController(
+        initialIndex: 1,
+        length: tabs.length,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: MyColors.blue(),
+            bottom: new TabBar(
+              indicatorColor: MyColors.yellow(),
+              tabs: tabs,
+              isScrollable: true,
+            ),
+            title: Text('HiLite Newspaper', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5),),
           ),
-          title: Text('HiLite Newspaper', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5),),
+          body: TabBarView(
+            children: children
+          ),
         ),
-        body: TabBarView(
-          children: children
-        ),
-      ),
-    );
+      );
   }
 }

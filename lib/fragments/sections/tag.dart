@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../models/colors.dart';
 import '../../models/tag.dart';
+import '../../models/database.dart';
 import 'tag-stories.dart';
 
 class Tag extends StatefulWidget {
@@ -31,9 +32,11 @@ class TagState extends State<Tag> {
 
   Future<void> getData() async {
     await tag.fillImage();
-    this.setState(() {
-      tag = tag;
-    });
+    if (this.mounted) {
+      setState(() {
+        tag = tag;
+      });
+    }
   }
 
   @override 
@@ -81,10 +84,20 @@ class TagState extends State<Tag> {
                           style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         new IconButton(
-                          icon: Icon(Icons.add_circle),
+                          icon: Icon(tag.saved == null || !tag.saved ? Icons.add_circle : Icons.check_circle),
                           color: Colors.white, 
                           onPressed: () {
-
+                            if (tag.saved == null || !tag.saved) {
+                              DBHelper().saveTag(tag);
+                              this.setState(() {
+                                tag.saved = true;
+                              });
+                            } else {
+                              DBHelper().deleteTag(tag);
+                              this.setState(() {
+                                tag.saved = false;
+                              });
+                            }
                           },
                         )
                       ],

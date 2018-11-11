@@ -74,9 +74,11 @@ class StoriesState extends State<Stories> {
 
   Future<void> getData() async {
     Iterable<StoryModel> stories = await new StoriesAPI().getData(category, tag, query, count);
-    this.setState(() {
-      this.stories = stories;
-    });
+    if (this.mounted) {
+      this.setState(() {
+        this.stories = stories;
+      });
+    }
   }
 
   void scrollUp() {

@@ -36,7 +36,7 @@ class DBHelper{
     for (int i = 0; i < list.length; i++) {
       sections.add(new SectionModel(list[i]["title"], list[i]["slug"], list[i]['count']));
     }
-    print(sections.elementAt(0).title);
+
     return sections;
   }
 
@@ -52,32 +52,26 @@ class DBHelper{
 
   Future<bool> isSectionSaved(SectionModel section) async {
     var dbClient = await db;
-    return (await dbClient.query("Section", where: ("slug="+section.slug))).length > 0;
+    return (await dbClient.query("Section", where:"slug = ?", whereArgs: [section.slug])).length > 0;
   }
 
    Future<bool> isTagSaved(TagModel tag) async {
     var dbClient = await db;
-    return (await dbClient.query("Tag", where: ("slug="+tag.slug))).length > 0;
+    return (await dbClient.query("Tag", where: "slug = ?", whereArgs: [tag.slug])).length > 0;
   }
 
   void deleteSection(SectionModel section) async {
     var dbClient = await db;
-    dbClient.delete("Section", where: "slug="+section.slug);
+    dbClient.delete("Section", where: "slug = ?", whereArgs: [section.slug]);
   }
 
   void deleteTag(TagModel tag) async {
     var dbClient = await db;
-    dbClient.delete("Tag", where: "slug="+tag.slug);
+    dbClient.delete("Tag", where: "slug = ?", whereArgs: [tag.slug]);
   }
   
   void saveSection(SectionModel section) async {
-    bool repeated = false;
-    for (SectionModel _section in await getSections()) {
-      if (_section.slug == section.slug) {
-        repeated = true;
-      }
-    }
-    if (!repeated) {
+    if (!(await isSectionSaved(section))) {
       var dbClient = await db;
       await dbClient.transaction((txn) async {
         return await txn.rawInsert(
@@ -99,14 +93,7 @@ class DBHelper{
   }
 
   void saveTag(TagModel tag) async {
-    bool repeated = false;
-    // ensure that the tag has not already been added
-    for (TagModel _tag in await getTags()) {
-      if (_tag.slug == tag.slug) {
-        repeated = true;
-      }
-    }
-    if (!repeated) {
+    if (!(await isTagSaved(tag))) {
       var dbClient = await db;
       await dbClient.transaction((txn) async {
         return await txn.rawInsert(
