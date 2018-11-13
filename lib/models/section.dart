@@ -38,6 +38,12 @@ class SectionModel {
   }
 
   String getCount() {
+    // if (count < 1000) {
     return getCountInt().toString() + " Posts";
+    // } else {
+    //   int first_two = (count / 100).round();
+    //   double decim = (first_two/10) + 0.1*(first_two%10);
+    //   return decim.toString() + "K Posts";
+    // }
   }
 }

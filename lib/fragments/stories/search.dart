@@ -31,12 +31,15 @@ class Search extends StatelessWidget {
                 list.updateQuery(query);
                 list.scrollUp();
               },
+              style: TextStyle(color: Colors.white),
 
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                fillColor: MyColors.yellow(),
+                fillColor: MyColors.blue(),
                 filled: true,
                 hintText: "Search",
+                hintStyle: TextStyle(color: Colors.white),
+
               ),
             ),
           ),

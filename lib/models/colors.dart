@@ -5,7 +5,8 @@ import 'dart:math';
 class MyColors {
   
   static Color blue() {
-    return Color.fromRGBO(75, 110, 163, 1.0);
+    return Colors.indigo;
+    // return Color.fromRGBO(75, 110, 163, 1.0);
   }
 
   static Color offWhite() {
@@ -14,7 +15,8 @@ class MyColors {
   }
 
   static Color yellow() {
-    return Color.fromRGBO(243, 201, 94, 1.0);
+    return Colors.amber;
+    // return Color.fromRGBO(243, 201, 94, 1.0);
   }
 
   static Color semiTransYellow() {

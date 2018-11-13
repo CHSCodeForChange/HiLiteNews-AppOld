@@ -87,7 +87,7 @@ class SectionState extends State<Section> {
                         new AutoSizeText(
                           section.getCount(),
                           maxLines: 1,
-                          style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                          style: new TextStyle(fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         new IconButton(
                           icon: Icon(section.saved == null || !section.saved ? Icons.add_circle : Icons.check_circle),

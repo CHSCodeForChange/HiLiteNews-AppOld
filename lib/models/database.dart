@@ -29,9 +29,15 @@ class DBHelper{
     await db.execute("CREATE TABLE Tag(id INTEGER PRIMARY KEY, title TEXT, slug TEXT, count INTEGER )");
   }
   
+  closeDB() async {
+    _db.close();
+  }
+  
   Future<List<SectionModel>> getSections() async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Section');
+    List<Map> list = await dbClient.transaction((txn) async {
+      return txn.query("Section");
+    });
     List<SectionModel> sections = new List();
     for (int i = 0; i < list.length; i++) {
       sections.add(new SectionModel(list[i]["title"], list[i]["slug"], list[i]['count']));
@@ -42,7 +48,10 @@ class DBHelper{
 
   Future<List<TagModel>> getTags() async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Tag');
+    List<Map> list = await dbClient.transaction((txn) async {
+      return txn.query("Tag");
+    });
+
     List<TagModel> tags = new List();
     for (int i = 0; i < list.length; i++) {
       tags.add(new TagModel(list[i]["title"], list[i]["slug"], list[i]['count']));
@@ -52,22 +61,32 @@ class DBHelper{
 
   Future<bool> isSectionSaved(SectionModel section) async {
     var dbClient = await db;
-    return (await dbClient.query("Section", where:"slug = ?", whereArgs: [section.slug])).length > 0;
+    List list =  await dbClient.transaction((txn) async {
+      return txn.query("Section", where:"slug = ?", whereArgs: [section.slug]);
+    });
+    return list.length > 0;
   }
 
    Future<bool> isTagSaved(TagModel tag) async {
     var dbClient = await db;
-    return (await dbClient.query("Tag", where: "slug = ?", whereArgs: [tag.slug])).length > 0;
+    List list = await dbClient.transaction((txn) async {
+      return txn.query("Tag", where: "slug = ?", whereArgs: [tag.slug]);
+    });
+    return list.length > 0;
   }
 
   void deleteSection(SectionModel section) async {
     var dbClient = await db;
-    dbClient.delete("Section", where: "slug = ?", whereArgs: [section.slug]);
+    await dbClient.transaction((txn) async {
+      return await txn.delete("Section", where: "slug = ?", whereArgs: [section.slug]);
+    });
   }
 
   void deleteTag(TagModel tag) async {
     var dbClient = await db;
-    dbClient.delete("Tag", where: "slug = ?", whereArgs: [tag.slug]);
+    await dbClient.transaction((txn) async {
+      return await txn.delete("Tag", where: "slug = ?", whereArgs: [tag.slug]);
+    });
   }
   
   void saveSection(SectionModel section) async {

@@ -81,7 +81,7 @@ class TagState extends State<Tag> {
                       children: <Widget>[
                         new Text(
                           tag.getCount(),
-                          style: new TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                          style: new TextStyle(fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         new IconButton(
                           icon: Icon(tag.saved == null || !tag.saved ? Icons.add_circle : Icons.check_circle),

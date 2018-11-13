@@ -38,6 +38,7 @@ class StoriesState extends State<Stories> {
   String category;
   String tag;
   String query;
+  bool moreStories = true;
 
   int count = 10;
 
@@ -76,6 +77,7 @@ class StoriesState extends State<Stories> {
     Iterable<StoryModel> stories = await new StoriesAPI().getData(category, tag, query, count);
     if (this.mounted) {
       this.setState(() {
+        moreStories = stories.length == this.stories?.length;
         this.stories = stories;
       });
     }
@@ -96,8 +98,10 @@ class StoriesState extends State<Stories> {
         itemBuilder: (BuildContext context, int index) {
           if (index < (stories == null ? 0  : stories.length)) {
             return new Story(stories.elementAt(index));
-          } else {
+          } else if (moreStories) {
             return new Loader();
+          } else {
+            return new Container();
           }
         },
       )
