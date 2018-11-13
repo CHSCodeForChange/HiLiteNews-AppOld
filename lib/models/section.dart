@@ -21,10 +21,9 @@ class SectionModel {
     title = json['title'].toString().toUpperCase();
     slug = json['slug'];
     count = json['post_count'];
-    isSaved();
   }
 
-  void isSaved() async {
+  Future<void> isSaved() async {
     saved = await DBHelper().isSectionSaved(this);
   }
 

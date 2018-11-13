@@ -37,6 +37,7 @@ class SectionState extends State<Section> {
 
   Future<void> getData() async {
     await section.fillImage();
+    await section.isSaved();
     if (this.mounted) {
       setState(() {
         section = section;

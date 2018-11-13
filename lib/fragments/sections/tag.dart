@@ -32,6 +32,7 @@ class TagState extends State<Tag> {
 
   Future<void> getData() async {
     await tag.fillImage();
+    await tag.isSaved();
     if (this.mounted) {
       setState(() {
         tag = tag;
