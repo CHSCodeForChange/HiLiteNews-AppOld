@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import '../api/sections.dart';
 
-import 'database.dart';
+import '../api/sections.dart';
+import './database.dart';
 
 class SectionModel {
   String title;
@@ -29,7 +29,7 @@ class SectionModel {
 
   Future<void> fillImage() async {
     url = await new SectionsAPI().getImage(this);
-    image = url != null ? Image.network(url, scale: 0.25,) : null;
+    image = url != null ? Image.network(url, scale: 0.001,) : null;
   }
 
   int getCountInt() {
@@ -44,5 +44,17 @@ class SectionModel {
     //   double decim = (first_two/10) + 0.1*(first_two%10);
     //   return decim.toString() + "K Posts";
     // }
+  }
+
+  String titleEachWordCapped() {
+    List<String> words = title.split(" ");
+    String result = "";
+    for (int i = 0; i < words.length; i++) {
+      result += words.elementAt(i).substring(0, 1).toUpperCase() + words.elementAt(i).substring(1).toLowerCase();
+      if (i < words.length - 1) {
+        result += " ";
+      }
+    }
+    return result;
   }
 }

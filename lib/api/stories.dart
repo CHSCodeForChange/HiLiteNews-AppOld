@@ -7,7 +7,7 @@ import '../models/story.dart';
 
 class StoriesAPI extends API {
 
-  Future<Iterable<StoryModel>> getData(String category, String tag, String query, int count) async {
+  Future<Iterable<StoryModel>> getData(String category, String tag, String query, int page) async {
     String url = this.domain + '/?json=get_recent_posts';
 
     if (category != null) {
@@ -18,7 +18,7 @@ class StoriesAPI extends API {
       url = this.domain + '/?json=get_search_results&search=' + query;
     }
 
-    url += '&count=' + count.toString() + '&page=1&include=posts,title,excerpt,thumbnail,url,date,custom_fields,tags,comment_count';
+    url += '&count=10&page=' + page.toString() + '&include=posts,title,excerpt,thumbnail,url,date,custom_fields,tags,comment_count';
 
     var response = await http.get(
       Uri.encodeFull(url),

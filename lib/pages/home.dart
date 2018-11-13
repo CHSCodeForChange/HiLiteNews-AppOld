@@ -39,7 +39,7 @@ class HomeViewState extends State<HomeView> {
   Future<void> fillSections() async {
     List<SectionModel> sections = await DBHelper().getSections();
     for (int i = 0; i < sections.length; i++) {
-      tabs.add(new Tab(text: sections[i].title));
+      tabs.add(new Tab(text: sections[i].titleEachWordCapped()));
       children.add(new Stories(sections[i].slug, null, null));
     }
     this.setState(() {
@@ -74,7 +74,7 @@ class HomeViewState extends State<HomeView> {
             backgroundColor: MyColors.blue(),
             bottom: new TabBar(
               indicatorColor: MyColors.yellow(),
-              tabs: tabs,
+              tabs: tabs, 
               isScrollable: true,
             ),
             title: Text('HiLite Newspaper', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5),),

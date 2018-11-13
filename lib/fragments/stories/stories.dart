@@ -32,15 +32,14 @@ class Stories extends StatefulWidget {
 
 class StoriesState extends State<Stories> {
   final webview = FlutterWebviewPlugin();
-  Iterable<StoryModel> stories;
+  List<StoryModel> stories= [];
   ScrollController controller = new ScrollController();
  
   String category;
   String tag;
   String query;
   bool moreStories = true;
-
-  int count = 10;
+  int page = 1;
 
   StoriesState (String category, String tag, String query, Stories parent) {
     this.category = category;
@@ -56,8 +55,8 @@ class StoriesState extends State<Stories> {
     }
 
     controller.addListener(() {
-      if (controller.position.pixels == controller.position.maxScrollExtent) {
-        count += 5;
+      if (moreStories && controller.position.pixels == controller.position.maxScrollExtent) {
+        page++;
         getData();
       }
     });
@@ -74,11 +73,11 @@ class StoriesState extends State<Stories> {
   }
 
   Future<void> getData() async {
-    Iterable<StoryModel> stories = await new StoriesAPI().getData(category, tag, query, count);
+    Iterable<StoryModel> stories = await new StoriesAPI().getData(category, tag, query, page);
     if (this.mounted) {
       this.setState(() {
-        moreStories = stories.length == this.stories?.length;
-        this.stories = stories;
+        moreStories = stories.length >= 10;
+        this.stories.addAll(stories);
       });
     }
   }

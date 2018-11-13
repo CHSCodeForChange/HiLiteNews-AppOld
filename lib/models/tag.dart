@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
+
 import '../api/tags.dart';
-import '../models/database.dart';
+import './database.dart';
 
 class TagModel {
   String title;
@@ -24,7 +25,7 @@ class TagModel {
 
   Future<void> fillImage() async {
     String url = await new TagsAPI().getImage(this);
-    image = url != null ? Image.network(url, scale: 0.25) : null;
+    image = url != null ? Image.network(url, scale: 0.001) : null;
   }
 
   int getCountInt() {

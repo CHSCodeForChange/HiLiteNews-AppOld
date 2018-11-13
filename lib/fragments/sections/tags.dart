@@ -47,25 +47,25 @@ class TagsState extends State<Tags> {
     } else {
       return new Column(
         children: <Widget>[
-          new Container(
-            margin: EdgeInsets.all(10.0),
-            child: TextField(
-              onChanged: (String query) {
-                tags = tagsOg.sublist(0,tagsOg.length);
-                tags.retainWhere((item) => item.title.contains(query.toUpperCase()));
-                this.setState(() {
-                  tags = tags;
-                });
-              },
+          // new Container(
+          //   margin: EdgeInsets.all(10.0),
+          //   child: TextField(
+          //     onChanged: (String query) {
+          //       tags = tagsOg.sublist(0,tagsOg.length);
+          //       tags.retainWhere((item) => item.title.contains(query.toUpperCase()));
+          //       this.setState(() {
+          //         tags = tags;
+          //       });
+          //     },
 
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                fillColor: MyColors.yellow(),
-                filled: true,
-                hintText: "Search",
-              ),
-            ),
-          ),
+          //     decoration: InputDecoration(
+          //       border: OutlineInputBorder(),
+          //       fillColor: MyColors.yellow(),
+          //       filled: true,
+          //       hintText: "Search",
+          //     ),
+          //   ),
+          // ),
           new Expanded(
             child: new GridView.count(
               controller: controller,
